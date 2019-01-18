@@ -3,7 +3,7 @@
  Hello and thank you for your interest in joining the Ombud team. We believe the best way to evaluate developers is with a coding challenge. For your project, we'd like you to complete as much of the following as you can. Please reach out to us if you get stuck and we'll help get you back on track.
  ## Project Description
  For this project we'd like you to build a server application that combines two different datasets and allows a client to answer questions against the combined data set through an API of your design.
- * Consumer Complaints Database: http://catalog.data.gov/dataset/consumer-complaint-database#topic=consumer_navigation
+ * Consumer Finance Complaints Database: https://www.consumerfinance.gov/data-research/consumer-complaints/ ([All Data csv](https://data.consumerfinance.gov/api/views/s6ew-h6mp/rows.csv?accessType=DOWNLOAD))
  * US Cities and Towns Dataset: https://www.census.gov/data/datasets/2017/demo/popest/total-cities-and-towns.html ([US-all csv](https://www2.census.gov/programs-surveys/popest/datasets/2010-2017/cities/totals/sub-est2017_all.csv))
 
 #### Minimum Functionality:
