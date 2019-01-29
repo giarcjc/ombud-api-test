@@ -1,4 +1,62 @@
 # Ombud Technical Test 2019
+
+# Current Status: Work in Progress
+
+## Working:
+    * Dockerized api (node/express), (spins up at http://localhost:3000)
+    * Dockerized Database (Elasticsearch, currently only 1 shard)
+    * Scripts to fetch, parse, load and enable csv data into DB
+    * API routes that allow collection of documents to answer test questions (see API Endpoints Implemented (so far) below)
+    * A frontend container that spins up, HTML stub implementation (http://localhost:8080/)
+    * 45 Unit Tests (so far) with coverage report
+
+## To-Do
+    * API Documentation (Swagger)
+    * UI (probably React, possibly Vue...)
+    * Proxy layer between UI and API to handle business logic
+    * API hardening...custom error messages, more error checking (!!!)
+    * Init script that waits for DB and calls DB scripts
+    * more routes (some endpoints that seem logical to implement have dummy stubs)
+    * more unit tests.  Integration/E2E tests on UI.
+
+## Usage:
+  - Spin up the stack: `docker-compose up`
+  - (optional) status check: `http://localhost:3000/api/v1/status`
+  - (optional) DB status check: `http://localhost:3000/api/v1/status/db`
+  - (optional) View DB indicies: `http://localhost:9200/_cat/indices?v&pretty`
+  - Pull, parse and load CSV files: `docker exec cctest-api "node" "server/db/parse-data.js"`
+  - Enable fielddata on certain fields*: `docker exec cctest-api "node" "server/db/enable-field-data.js"`
+  - To run unit tests:
+    * locally in the project: `npm i` then `npm run test`
+    * in the container: `docker exec -it cctest-api bash` then `npm run test`
+
+   \* I know this is not necessarily best practice.  I'm still pretty new to Elasticsearch and this was my initial solution but future versions of the API might implement query/aggregation differently and make this step unnecessary.
+
+## API Endpoints Implemented (so far)
+-Question:
+**What product has the most complaints in the State of New York?**
+
+- endpoint: `http://localhost:3000/api/v1/complaints/products?state=NY&limit=1`
+        *Description:  gets document count of products in state (e.g. NY)*
+
+-Question:
+ **What is the aggregate population change between 2014 and 2015 in each state where Bank of America received a consumer complaint?**
+
+- endpoint 1: `http://localhost:3000/api/v1/population/growth?fromYear=2014&toYear=2015`
+        - Description: Gets the difference in population between fromYear (e.g. 2014) and toYear (e.g 2015) for all states.
+- endpoint 2: `http://localhost:3000/api/v1/complaints/states?company=Bank of America`
+        - *Description: Gets all states where Company X (e.g. BofA) had a complaint.*
+
+-Question: **What is the fastest growing state that also has the most complaints for payday loans?**
+
+- endpoint 1: `http://localhost:3000/api/v1/population/growth?rate=true`
+        *Description: gets the percentage of change between year A (2010) and year B (2017) for all states*
+
+- endpoint 2: `http://localhost:3000/api/v1/complaints/states?productId=payday_loan`
+        *Description: gets complaints by product grouped by state*
+
+
+**********
  ## Intro
  Hello and thank you for your interest in joining the Ombud team. We believe the best way to evaluate developers is with a coding challenge. For your project, we'd like you to complete as much of the following as you can. Please reach out to us if you get stuck and we'll help get you back on track.
  ## Project Description

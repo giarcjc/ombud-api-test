@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  api:
+    container_name: cctest-api
+    build: .
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    environment:
+     - NODE_ENV=local
+     - ES_HOST=elasticsearch
+     - PORT=3000
+
+  ui:
+    container_name: cctest-ui
+    image: nginx
+    volumes:
+      - ./public:/usr/share/nginx/html
+    ports:
+      - "8080:80"
+
+  elasticsearch:
+    container_name: cctest-elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ports:
+      - "9300:9300"
+      - "9200:9200"
+
+volumes:
+  esdata:
