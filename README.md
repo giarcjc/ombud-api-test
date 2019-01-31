@@ -1,23 +1,14 @@
 # Ombud Technical Test 2019
 
-# Current Status: Work in Progress
+# Current Status: v.0.0.1
 
-## Working:
+## Currently Working:
     * Dockerized api (node/express), (spins up at http://localhost:3000)
     * Dockerized Database (Elasticsearch, currently only 1 shard)
     * Scripts to fetch, parse, load and enable csv data into DB
-    * API routes that allow collection of documents to answer test questions (see API Endpoints Implemented (so far) below)
-    * A frontend container that spins up, HTML stub implementation (http://localhost:8080/)
-    * 45 Unit Tests (so far) with coverage report
-
-## To-Do
-    * API Documentation (Swagger)
-    * UI (probably React, possibly Vue...)
-    * Proxy layer between UI and API to handle business logic
-    * API hardening...custom error messages, more error checking (!!!)
-    * Init script that waits for DB and calls DB scripts
-    * more routes (some endpoints that seem logical to implement have dummy stubs)
-    * more unit tests.  Integration/E2E tests on UI.
+    * API routes that allow collection of documents to answer test questions (see API docs: `https://github.com/growombud/christopher-craig-test/blob/master/api-docs.md`)
+    * A frontend container that spins up, HTML stub implementation (http://localhost:8080/) (UI not implemented).
+    * 62 Unit Tests (so far) with coverage report
 
 ## Usage:
   - Spin up the stack: `docker-compose up`
@@ -32,7 +23,7 @@
 
    \* I know this is not necessarily best practice.  I'm still pretty new to Elasticsearch and this was my initial solution but future versions of the API might implement query/aggregation differently and make this step unnecessary.
 
-## API Endpoints Implemented (so far)
+## API Endpoints Implemented To Answer the Following Questions:
 -Question:
 **What product has the most complaints in the State of New York?**
 
@@ -55,6 +46,13 @@
 - endpoint 2: `http://localhost:3000/api/v1/complaints/states?productId=payday_loan`
         *Description: gets complaints by product grouped by state*
 
+
+## To-Do someday
+    * API Documentation in Swagger
+    * UI (probably React, possibly Vue...)
+    * Proxy layer between UI and API to handle business logic
+    * Init script that waits for DB and calls DB scripts
+    * more unit tests.  Integration/E2E tests on UI.
 
 **********
  ## Intro
