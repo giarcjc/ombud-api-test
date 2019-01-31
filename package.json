@@ -5,6 +5,7 @@
   "main": "server/app.js",
   "scripts": {
     "start": "node --inspect=0.0.0.0:9229 server/app.js",
+    "start:watch": "nodemon server/app.js",
     "load-data": "node ./server/db/parse-data.js",
     "enable-fields": "node ./server/db/enable-field-data.js",
     "lint": "eslint . --fix",

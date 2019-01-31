@@ -7,21 +7,86 @@
 
 ####`GET /complaints`
 
+Returns an array of all complaint data.  Default limit is 10 records unless the `limit` param is set.
+
    *Query Params*:
 
-   * `?company`:
-   * `?productId`:
-   * `?limit`:
-   * `?count`:
+  * `?company`:
+
+  * Example:
+    * Request: `api/v1/complaints?company=bank%20of%20america`
+    * Response:
+      * status: 200
+      * body:
+        [
+          {"date_received":"10/28/2017","product":"Checking or savings account","sub-product":"Checking account","issue":"Problem caused by your funds being low","sub-issue":"Non-sufficient funds and associated fees","consumer_complaint_narrative":"","company_public_response":"Company has responded to the consumer and the CFPB and chooses not to provide a public response","company":"BANK OF AMERICA, NATIONAL ASSOCIATION","state":"CA","zip_code":92311,"tags":"","consumer_consent_provided?":"Consent not provided","submitted_via":"Web","date_sent_to_company":"10/28/2017","company_response_to_consumer":"Closed with monetary relief","timely_response?":"Yes","consumer_disputed?":"N/A","complaint_id":2714104,"product_id":"checking_or_savings_account","subproduct_id":"checking_account"},
+          ...
+          {"date_received":"10/25/2017","product":"Mortgage","sub-product":"Conventional home mortgage","issue":"Trouble during payment process","sub-issue":"","consumer_complaint_narrative":"","company_public_response":"Company has responded to the consumer and the CFPB and chooses not to provide a public response","company":"BANK OF AMERICA, NATIONAL ASSOCIATION","state":"FL","zip_code":33178,"tags":"","consumer_consent_provided?":"N/A","submitted_via":"Fax","date_sent_to_company":"10/25/2017","company_response_to_consumer":"Closed with explanation","timely_response?":"Yes","consumer_disputed?":"N/A","complaint_id":2712135,"product_id":"mortgage","subproduct_id":"conventional_home_mortgage"}
+        ]
+
+
+  Returns an array of complaint data filtered for a given company.
+
+  * `?productId`:
+
+  * Example:
+    * Request: `api/v1/complaints?productId=credit_card`
+    * Response:
+      * status: 200
+      * body:
+        [
+          {"date_received":"09/14/2015","product":"Credit card","sub-product":"","issue":"Identity theft / Fraud / Embezzlement","sub-issue":"","consumer_complaint_narrative":"","company_public_response":"","company":"CAPITAL ONE FINANCIAL CORPORATION","state":"MD","zip_code":20902,"tags":"","consumer_consent_provided?":"N/A","submitted_via":"Referral","date_sent_to_company":"09/16/2015","company_response_to_consumer":"Closed with explanation","timely_response?":"Yes","consumer_disputed?":"No","complaint_id":1563246,"product_id":"credit_card","subproduct_id":""},
+          {"date_received":"09/14/2015","product":"Credit card","sub-product":"","issue":"Other","sub-issue":"","consumer_complaint_narrative":"","company_public_response":"Company chooses not to provide a public response","company":"CITIBANK, N.A.","state":"CA","zip_code":92692,"tags":"Older American","consumer_consent_provided?":"Consent not provided","submitted_via":"Web","date_sent_to_company":"09/15/2015","company_response_to_consumer":"Closed with monetary relief","timely_response?":"Yes","consumer_disputed?":"No","complaint_id":1562964,"product_id":"credit_card","subproduct_id":""},
+          ...
+          {"date_received":"09/12/2015","product":"Credit card","sub-product":"","issue":"Billing disputes","sub-issue":"","consumer_complaint_narrative":"","company_public_response":"Company believes it acted appropriately as authorized by contract or law","company":"UNITED SERVICES AUTOMOBILE ASSOCIATION","state":"OR","zip_code":97229,"tags":"","consumer_consent_provided?":"Consent not provided","submitted_via":"Web","date_sent_to_company":"09/12/2015","company_response_to_consumer":"Closed with explanation","timely_response?":"Yes","consumer_disputed?":"No","complaint_id":1562054,"product_id":"credit_card","subproduct_id":""}]
+
+  Returns an array of complaint data filtered for a given product_id.
+
+  * `?state`:
+
+  * Example:
+    * Request: `api/v1/complaints?state=NY`
+    * Response:
+      * status: 200
+      * body:
+        [
+          {"date_received":"01/23/2018","product":"Debt collection","sub-product":"Federal student loan debt","issue":"Written notification about debt","sub-issue":"Didn't receive enough information to verify debt","consumer_complaint_narrative":"","company_public_response":"","company":"Navient Solutions, LLC.","state":"NY","zip_code":11380,"tags":"","consumer_consent_provided?":"N/A","submitted_via":"Fax","date_sent_to_company":"01/23/2018","company_response_to_consumer":"Closed with explanation","timely_response?":"Yes","consumer_disputed?":"N/A","complaint_id":2791416,"product_id":"debt_collection","subproduct_id":"federal_student_loan_debt"},
+          ...
+          {"date_received":"01/22/2018","product":"Vehicle loan or lease","sub-product":"Loan","issue":"Managing the loan or lease","sub-issue":"Problem with the interest rate","consumer_complaint_narrative":"","company_public_response":"","company":"CAPITAL ONE FINANCIAL CORPORATION","state":"NY","zip_code":12944,"tags":"","consumer_consent_provided?":"N/A","submitted_via":"Referral","date_sent_to_company":"01/22/2018","company_response_to_consumer":"Closed with explanation","timely_response?":"Yes","consumer_disputed?":"N/A","complaint_id":2789278,"product_id":"vehicle_loan_or_lease","subproduct_id":"loan"}
+        ]
+
+
+  Returns an array of complaint data filtered for a given state.
+
+  * `?limit`:
+
+  Limits the size of the returned data array.
+
+  * Example:
+    * Request: `api/v1/complaints?productId=credit_card&limit=2`
+    * Response:
+      * status: 200
+      * body:
+        [{"date_received":"09/14/2015","product":"Credit card","sub-product":"","issue":"Identity theft / Fraud / Embezzlement","sub-issue":"","consumer_complaint_narrative":"","company_public_response":"","company":"CAPITAL ONE FINANCIAL CORPORATION","state":"MD","zip_code":20902,"tags":"","consumer_consent_provided?":"N/A","submitted_via":"Referral","date_sent_to_company":"09/16/2015","company_response_to_consumer":"Closed with explanation","timely_response?":"Yes","consumer_disputed?":"No","complaint_id":1563246,"product_id":"credit_card","subproduct_id":""},{"date_received":"09/14/2015","product":"Credit card","sub-product":"","issue":"Other","sub-issue":"","consumer_complaint_narrative":"","company_public_response":"Company chooses not to provide a public response","company":"CITIBANK, N.A.","state":"CA","zip_code":92692,"tags":"Older American","consumer_consent_provided?":"Consent not provided","submitted_via":"Web","date_sent_to_company":"09/15/2015","company_response_to_consumer":"Closed with monetary relief","timely_response?":"Yes","consumer_disputed?":"No","complaint_id":1562964,"product_id":"credit_card","subproduct_id":""}]
+
+  * `?count`:
+
+  Returns the total number of documents that match the query.
+
 
 ####`GET /complaints/:id`
 
-   *Query Params*:
+Returns complaint by passed Id.  The 'complaint_id' property of the data correspondes to the passed :id param.
 
-   * `?company`:
-   * `?productId`:
-   * `?limit`:
-   * `?count`:
+* Example:
+  * Request: `api/v1/complaints/2467650`
+  * Response:
+    * status: 200
+    * body:
+      [
+        {"date_received":"04/26/2017","product":"Mortgage","sub-product":"Other type of mortgage","issue":"Trouble during payment process","sub-issue":"","consumer_complaint_narrative":"","company_public_response":"Company has responded to the consumer and the CFPB and chooses not to provide a public response","company":"BANK OF AMERICA, NATIONAL ASSOCIATION","state":"NY","zip_code":11542,"tags":"","consumer_consent_provided?":"N/A","submitted_via":"Referral","date_sent_to_company":"04/27/2017","company_response_to_consumer":"Closed with monetary relief","timely_response?":"Yes","consumer_disputed?":"N/A","complaint_id":2467650,"product_id":"mortgage","subproduct_id":"other_type_of_mortgage"}
+      ]
+
 
 ####`GET /complaints/products`
 
@@ -45,9 +110,9 @@ Returns an array of product types and corresponding document count of complaints
 
   * `?company`:
 
-  Returns the counts of all complain documents for a given company.
+  Returns the document counts of all complain documents for a given company.
 
-    * Ex:
+    * Example:
       * Request: `api/v1/complaints/products?company=wells%20fargo`
       * Response:
         * status: 200
@@ -64,7 +129,7 @@ Returns an array of product types and corresponding document count of complaints
 
   * `?productId`:
 
-  Returns the counts of all complaint documents for a given product Id.
+  Returns the document counts of all complaint documents for a given product Id.
 
    * Example:
       * Request: `api/v1/complaints/products?productId=payday%20loans`
@@ -86,7 +151,7 @@ Returns an array of product types and corresponding document count of complaints
 
   Limit the results returned. `?limit=1` will return the product with the most complaints.
 
-   * Ex:
+   * Example:
       * Request: `api/v1/complaints/products?limit=1`
       * Response:
         * status: 200
@@ -99,7 +164,7 @@ Returns an array of product types and corresponding document count of complaints
 
   Returns the count of all complaint documents
 
-   * Ex:
+   * Example:
       * Request: `api/v1/complaints/products?count=true`
       * Response:
         * status: 200
@@ -110,7 +175,7 @@ Returns an array of product types and corresponding document count of complaints
 
 Returns an array of all states and corresponding document counts of complaints. Results are sorted from greatest to least to return the state with the most complaints as the first element.
 
-  * Ex:
+  * Example:
     * Request: `api/v1/complaints/states?company=wells%20fargo`
     * Response:
       * status: 200
@@ -130,7 +195,7 @@ Returns an array of all states and corresponding document counts of complaints. 
 
   Returns the document counts of all complaint documents per state for a given company.
 
-   * Ex:
+   * Example:
       * Request: `api/v1/complaints/states?company=wells%20fargo`
       * Response:
         * status: 200
@@ -151,7 +216,7 @@ Returns an array of all states and corresponding document counts of complaints. 
 
   Returns the document counts of all complaint documents per state for a given product Id.
 
-   * Ex:
+   * Example:
       * Request: `api/v1/complaints/states?productId=payday_loan`
       * Response:
         * status: 200
@@ -171,7 +236,7 @@ Returns an array of all states and corresponding document counts of complaints. 
   * `?limit`:
 
   Limit the results returned. `?limit=1` will return the state with the most complaints.
-   * Ex:
+   * Example:
       * Request: `api/v1/complaints/states?limit=3`
       * Response:
         * status: 200
@@ -186,7 +251,7 @@ Returns an array of all states and corresponding document counts of complaints. 
 
   Returns the count of all complaint documents
 
-   * Ex:
+   * Example:
     * Request: `api/v1/complaints/states?count=true`
     * Response:
       * status: 200
@@ -199,7 +264,7 @@ Returns an array of all states and corresponding document counts of complaints. 
 
 ####`GET /population`
 
-  * Ex:
+  * Example:
     * Request:
     * Response:
       * status: 200
@@ -209,7 +274,7 @@ Returns an array of all states and corresponding document counts of complaints. 
 
   `?limit`
 
-    * Ex:
+    * Example:
       * Request:
       * Response:
         * status: 200
@@ -217,7 +282,7 @@ Returns an array of all states and corresponding document counts of complaints. 
 
   `?count`
 
-    * Ex:
+    * Example:
       * Request:
       * Response:
         * status: 200
@@ -227,7 +292,7 @@ Returns an array of all states and corresponding document counts of complaints. 
 
 Returns an array of all states with the population change, expressed as an integer, representing the aggregate population difference number for that state over the given time period (default time period if no fromYear or toYear query params supplied). Results are sorted from greatest aggregate change to smallest, so the state with the greatest aggregate change is first element.
 
-  * Ex:
+  * Example:
     * Request: `/api/v1/population/growth`
     * Response:
       * status: 200
@@ -249,7 +314,7 @@ Returns an array of all states with the population change, expressed as an integ
 
   Returns an array of all states with the population change, expressed as a floating point number,representing the percentage of change for that state over the given time period (default time period if no fromYear or toYear query params supplied). Results are sorted from greatest rate of change to smallest, so the state with the greatest rate of change is first element.
 
-    * Ex:
+    * Example:
       * Request: `api/v1/population/growth?rate=true`
       * Response:
         * status: 200
@@ -270,7 +335,7 @@ Returns an array of all states with the population change, expressed as an integ
 
   Sets the starting year for the query.  If omitted will default to first available year.
 
-    * Ex:
+    * Example:
       * Request: `api/v1/population/growth?rate=true&fromYear=2014`
       * Response:
         * status: 200
@@ -290,7 +355,7 @@ Returns an array of all states with the population change, expressed as an integ
 
   Sets the ending year for the query. If omitted will default to last available year.
 
-    * Ex:
+    * Example:
       * Request: `api/v1/population/growth?toYear=2016`
       * Response:
         * status: 200
@@ -308,7 +373,7 @@ Returns an array of all states with the population change, expressed as an integ
 
   `?limit`
 
-    * Ex:
+    * Example:
       * Request: `api/v1/population/growth?limit=3`
       * Response:
         * status: 200
@@ -325,4 +390,18 @@ Returns an array of all states with the population change, expressed as an integ
 
 ####`GET /status`
 
+  * Example:
+    * Request: `api/v1/status`
+    * Response:
+      * status: 200
+      * body:
+          {"status":"all good!","version":"0.0.1","name":"cctest","description":"Ombud API Test"}
+
 ####`GET /status/db`
+
+  * Example:
+    * Request: `api/v1/status`
+    * Response:
+      * status: 200
+      * body:
+          {"status":"all good!","version":"0.0.1","name":"cctest","description":"Ombud API Test"}

@@ -64,12 +64,6 @@ describe('Complaints Service', () => {
     });
   });
 
-  // describe('extractSearchData', () => {
-  //   it('should destructure nested object and return array of objects', () => {
-
-  //   });
-  // });
-
   describe('getProductsByQuery', () => {
     it('should query db to get document counts of all product groups for given state', async () => {
       const state = { state: 'NY' };
@@ -428,5 +422,117 @@ describe('Complaints Service', () => {
     });
   });
 
-  // describe('getComplaints', () => {});
+  describe('getComplaints', () => {
+    it('should get all complaints without any params', async () => {
+      const expectedESReqBody = {
+        query: {
+          bool: {
+            filter: undefined, must: undefined,
+          },
+        },
+      };
+
+      sandbox.stub(utils, 'extractSearchData').returns([]);
+      const options = { url: `${mockUrl}_search`, json: true, body: expectedESReqBody };
+      await complaintsService.getComplaints();
+      requestStub.should.have.been.calledOnce.and.calledWith(options);
+    });
+
+    it('should get complaints with state param', async () => {
+      const state = { state: 'NY' };
+      const expectedESReqBody = {
+        query: {
+          bool: {
+            filter: undefined, must: { state: 'NY' },
+          },
+        },
+      };
+
+      sandbox.stub(utils, 'extractSearchData').returns([]);
+      const options = { url: `${mockUrl}_search`, json: true, body: expectedESReqBody };
+      await complaintsService.getComplaints(state);
+      requestStub.should.have.been.calledOnce.and.calledWith(options);
+    });
+
+    it('should get complaints with company param', async () => {
+      const company = { company: 'wells fargo' };
+      const expectedESReqBody = {
+        query: {
+          bool: {
+            filter: undefined, must: { company: 'wells fargo' },
+          },
+        },
+      };
+
+      sandbox.stub(utils, 'extractSearchData').returns([]);
+      const options = { url: `${mockUrl}_search`, json: true, body: expectedESReqBody };
+      await complaintsService.getComplaints(company);
+      requestStub.should.have.been.calledOnce.and.calledWith(options);
+    });
+
+    it('should get complaints with productId param', async () => {
+      const productId = { product_id: 'credit_card' };
+      const expectedESReqBody = {
+        query: {
+          bool: {
+            filter: { product_id: 'credit_card' }, must: undefined,
+          },
+        },
+      };
+
+      sandbox.stub(utils, 'extractSearchData').returns([]);
+      const options = { url: `${mockUrl}_search`, json: true, body: expectedESReqBody };
+      await complaintsService.getComplaints(undefined, productId);
+      requestStub.should.have.been.calledOnce.and.calledWith(options);
+    });
+
+    it('should get subset of complaints with limit param', async () => {
+      const limit = 7;
+      const expectedESReqBody = {
+        size: 7,
+        query: {
+          bool: {
+            filter: undefined, must: undefined,
+          },
+        },
+      };
+
+      sandbox.stub(utils, 'extractSearchData').returns([]);
+      const options = { url: `${mockUrl}_search`, json: true, body: expectedESReqBody };
+      await complaintsService.getComplaints(undefined, undefined, limit);
+      requestStub.should.have.been.calledOnce.and.calledWith(options);
+    });
+
+    it('should get count of complaints with count param', async () => {
+      const expectedESReqBody = {
+        query: {
+          bool: {
+            filter: undefined, must: undefined,
+          },
+        },
+      };
+
+      sandbox.stub(utils, 'getResultCount').returns(53673);
+      const options = { url: `${mockUrl}_search`, json: true, body: expectedESReqBody };
+      await complaintsService.getComplaints(undefined, undefined, undefined, true);
+      requestStub.should.have.been.calledOnce.and.calledWith(options);
+    });
+  });
+
+  describe('getComplaintsById', () => {
+    it('should get one complaint for a given id', async () => {
+      const expectedESReqBody = {
+        query: {
+          match: {
+            complaint_id: 3,
+          },
+        },
+      };
+
+      sandbox.stub(utils, 'extractSearchData').returns([]);
+      const options = { url: `${mockUrl}_search`, json: true, body: expectedESReqBody };
+      await complaintsService.getComplaintsById(3);
+      requestStub.should.have.been.calledOnce.and.calledWith(options);
+    });
+  });
 });

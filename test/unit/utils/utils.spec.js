@@ -75,4 +75,68 @@ describe('Utils', () => {
       (() => utils.limitResults('dataArray', 3)).should.throw();
     });
   });
+
+  describe('extractSearchData', () => {
+    it('should destructure returned search data and return an array of objects', () => {
+      const searchData = {
+        took: 9,
+        timed_out: false,
+        _shards: {
+          total: 5,
+          successful: 5,
+          skipped: 0,
+          failed: 0,
+        },
+        hits: {
+          total: 53673,
+          max_score: 2.6581059,
+          hits: [
+            {
+              _score: 2.6581059,
+              _source: {
+                date_received: '01/23/2018',
+                product: 'Debt collection',
+              },
+            },
+            {
+              _score: 2.6581059,
+              _source: {
+                date_received: '01/23/2018',
+                product: 'Checking or savings account',
+              },
+            },
+          ],
+        },
+      };
+
+      const expectedResult = [
+        {
+          date_received: '01/23/2018',
+          product: 'Debt collection',
+        },
+        {
+          date_received: '01/23/2018',
+          product: 'Checking or savings account',
+        },
+      ];
+
+      const result = utils.extractSearchData(searchData);
+      result.should.deep.equal(expectedResult);
+    });
+  });
+
+  describe('getResultCount', () => {
+    it('return only the count of the hits ', () => {
+      const searchData = {
+        hits: {
+          total: 1491,
+          max_score: 0,
+          hits: [],
+        },
+      };
+
+      const result = utils.getResultCount(searchData);
+      result.should.equal(1491);
+    });
+  });
 });

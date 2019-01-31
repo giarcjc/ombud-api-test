@@ -40,6 +40,39 @@ describe('Complaints endpoints', () => {
       });
   });
 
+  it('should be able to GET api/v1/complaints?state=NY', (done) => {
+    request = chai
+      .request(app)
+      .get('/api/v1/complaints?state=NY')
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
+  it('should be able to GET api/v1/complaints?company=Bank of America', (done) => {
+    request = chai
+      .request(app)
+      .get('/api/v1/complaints?company=Bank of America')
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
+  it('should be able to GET api/v1/complaints?productId=credit_card', (done) => {
+    request = chai
+      .request(app)
+      .get('/api/v1/complaints?productId=credit_card')
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
   it('should be able to GET api/v1/complaints?limit=50', (done) => {
     request = chai
       .request(app)
@@ -55,6 +88,17 @@ describe('Complaints endpoints', () => {
     request = chai
       .request(app)
       .get('/api/v1/complaints?count=true')
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
+  it('should be able to GET api/v1/complaints/123', (done) => {
+    request = chai
+      .request(app)
+      .get('/api/v1/complaints/123')
       .end((err, res) => {
         res.should.have.status(200);
         expect(err).to.equal(null);

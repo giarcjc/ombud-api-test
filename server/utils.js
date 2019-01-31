@@ -24,6 +24,29 @@ const utils = {
     }
     return dataArray;
   },
+
+
+  /**
+   * helper function to destructure returned count of data
+   * @param {object} data - initial returned data
+   */
+  getResultCount(data) {
+    const { hits: { total } } = data;
+    return total;
+  },
+
+  /**
+   * helper function to destructure returned data
+   * @param {object} data - initial returned data
+   */
+  extractSearchData(data) {
+    const { hits: { hits } } = data;
+    return hits.map((hit) => {
+      const { _source = {} } = hit;
+      return _source;
+    });
+  },
+
 };
 
 module.exports = utils;
