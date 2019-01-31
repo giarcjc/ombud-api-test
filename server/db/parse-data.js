@@ -114,33 +114,9 @@ function createComplaintJSON() {
     'Complaint ID',
   ];
 
-  // const outputFields = [
-  //   'Date received',
-  //   'Product',
-  //   'Sub-product',
-  //   'Issue',
-  //   'Sub-issue',
-  //   'Consumer complaint narrative',
-  //   'Company public response',
-  //   'Company',
-  //   'State',
-  //   'ZIP code',
-  //   'Tags',
-  //   'Consumer consent provided?',
-  //   'Submitted via',
-  //   'Date sent to company',
-  //   'Company response to consumer',
-  //   'Timely response?',
-  //   'Consumer disputed?',
-  //   'Complaint ID',
-  //   'product_id',
-  //   'subproduct_id',
-  // ];
-
   const outputFields = extractFields.map(field => field.toLowerCase().replace(/\s+/g, '_'));
   outputFields.push('product_id');
   outputFields.push('subproduct_id');
-
 
   const csvOptions = {
     colParser: { 'ZIP code': 'string' },

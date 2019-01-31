@@ -101,6 +101,37 @@ const populationService = {
       throw err;
     }
   },
+
+  getPopulation: async (city, limit, count) => {
+    let esReqBody = {};
+
+    if (city) {
+      esReqBody = {
+        query: { match_phrase: { CITY: city } },
+      };
+    }
+
+
+    if (limit) {
+      Object.assign(esReqBody, { size: limit });
+    }
+
+    optionPartial.url = `${url}_search`;
+    const options = Object.assign(optionPartial, { body: esReqBody });
+    logger.debug(options);
+
+    try {
+      const data = await rp(options);
+
+      if (count) {
+        return utils.getResultCount(data);
+      }
+
+      return utils.extractSearchData(data);
+    } catch (err) {
+      throw err;
+    }
+  },
 };
 
 module.exports = populationService;

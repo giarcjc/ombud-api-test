@@ -19,6 +19,14 @@ function handleGrowth(req, res, next) { // ewww...?
     .catch(err => next(err));
 }
 
+function handlePopulation(req, res, next) {
+  const { city, limit, count } = req.query;
+  populationService.getPopulation(city, limit, count)
+    .then(result => res.json(result))
+    .catch(err => next(err));
+}
+
 module.exports = {
+  handlePopulation,
   handleGrowth,
 };
