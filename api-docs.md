@@ -278,7 +278,7 @@ Returns an array of all population data.  Default limit is 10 records unless the
 
   *Query Params*:
 
-  `&city`
+  `?city`
 
   Returns an array of population data for each city that matches the given city param.  (Note: The data set is kinda weird, there seem to be multiple entries for the same city).
 
