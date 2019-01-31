@@ -1,8 +1,6 @@
 const elasticsearch = require('elasticsearch');
 const rp = require('request-promise');
 const logger = require('../logger');
-const { dbError } = require('../errors');
-
 
 const port = 9200;
 const host = process.env.ES_HOST || 'localhost';

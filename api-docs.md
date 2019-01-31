@@ -2,6 +2,21 @@
 
 ## Consumer Complaint Query and Aggregation API  v0.0.1
 
+A note on expected Query Params:
+* The api should accept upper or lowercase query params, however:
+
+* States should be passed in as 2 char US state abbreviation:
+  Example: `NY` instead of `New York`
+
+* Product Ids should be concatenated with an underscore:
+  Example: not `Payday Loan`
+
+* Limit should be an integer.
+  Example: 2
+
+* Count evaluates to a boolean so anything will be accepted as long as the count query param is present:
+  Example: `count=foo` will evalute the same as `count=true`
+
 
 ### Complaints
 
@@ -127,26 +142,6 @@ Returns an array of product types and corresponding document count of complaints
           {"key":"vehicle_loan_or_lease","doc_count":339}
         ]
 
-  * `?productId`:
-
-  Returns the document counts of all complaint documents for a given product Id.
-
-  * Example:
-    * Request: `api/v1/complaints/products?productId=payday%20loans`
-    * Response:
-      * status: 200
-        * body:
-          [
-            {"key":"mortgage","doc_count":183271},
-            {"key":"debt_collection","doc_count":140892},{"key":"credit_reporting_credit_repair_services_or_other_personal_consumer_reports","doc_count":113683},
-            {"key":"credit_reportingincorrect_information_on_credit_report","doc_count":69305},
-            {"key":"bank_account_or_service","doc_count":59719},
-            {"key":"credit_card","doc_count":58555},
-            {"key":"student_loan","doc_count":27576},
-            {"key":"checking_or_savings_account","doc_count":24102},{"key":"credit_card_or_prepaid_card","doc_count":23895},
-            {"key":"consumer_loan","doc_count":19075}
-          ]
-
   * `?limit`:
 
   Limit the results returned. `?limit=1` will return the product with the most complaints.
@@ -176,7 +171,7 @@ Returns an array of product types and corresponding document count of complaints
 Returns an array of all states and corresponding document counts of complaints. Results are sorted from greatest to least to return the state with the most complaints as the first element.
 
   * Example:
-    * Request: `api/v1/complaints/states?company=wells%20fargo`
+    * Request: `api/v1/complaints/states`
     * Response:
       * status: 200
         * body:

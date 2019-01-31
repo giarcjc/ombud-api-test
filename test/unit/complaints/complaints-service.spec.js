@@ -46,12 +46,10 @@ describe('Complaints Service', () => {
 
   describe('getCount', () => {
     it('should return count of all docs that match query', async () => {
-      const query = { foo: 'bar' };
-      const expectedESReqBody = {
-        query: {
-          match_phrase: query,
-        },
+      const query = {
+        match_phrase: { foo: 'bar' },
       };
+      const expectedESReqBody = { query };
       const options = { uri: `${mockUrl}_count`, json: true, body: expectedESReqBody };
       await complaintsService.getCount(query);
       requestStub.should.have.been.calledOnce.and.calledWith(options);
@@ -66,14 +64,14 @@ describe('Complaints Service', () => {
 
   describe('getProductsByQuery', () => {
     it('should query db to get document counts of all product groups for given state', async () => {
-      const state = { state: 'NY' };
+      const query = {
+        match_phrase: {
+          state: 'NY',
+        },
+      };
       const expectedESReqBody = {
         size: 0,
-        query: {
-          match_phrase: {
-            state: 'NY',
-          },
-        },
+        query,
         aggs: {
           product_bucket: {
             terms: {
@@ -84,20 +82,20 @@ describe('Complaints Service', () => {
       };
       sandbox.stub(utils, 'extractAggregationData').returns([]);
       const options = { url: `${mockUrl}_search`, json: true, body: expectedESReqBody };
-      await complaintsService.getProductsByQuery(state);
+      await complaintsService.getProductsByQuery(query);
       requestStub.should.have.been.calledOnce.and.calledWith(options);
     });
 
 
     it('should query db to get document counts of all product groups for given state with optional limit param', async () => {
-      const state = { state: 'NY' };
+      const query = {
+        match_phrase: {
+          state: 'NY',
+        },
+      };
       const expectedESReqBody = {
         size: 0,
-        query: {
-          match_phrase: {
-            state: 'NY',
-          },
-        },
+        query,
         aggs: {
           product_bucket: {
             terms: {
@@ -109,36 +107,37 @@ describe('Complaints Service', () => {
 
       sandbox.stub(utils, 'extractAggregationData').returns([]);
       const options = { url: `${mockUrl}_search`, json: true, body: expectedESReqBody };
-      await complaintsService.getProductsByQuery(state, 3);
+      await complaintsService.getProductsByQuery(query, 3);
       requestStub.should.have.been.calledOnce.and.calledWith(options);
     });
 
     it('should query db to get count of all product groups for given state', async () => {
-      const state = { state: 'NY' };
+      const query = {
+        match_phrase: {
+          state: 'NY',
+        },
+      };
       const count = true;
       const expectedESReqBodyCount = {
-        query: {
-          match_phrase: {
-            state: 'NY',
-          },
-        },
+        query,
       };
 
       sandbox.stub(utils, 'extractAggregationData').returns([]);
       const options = { uri: `${mockUrl}_count`, json: true, body: expectedESReqBodyCount };
-      await complaintsService.getProductsByQuery(state, undefined, count);
+      await complaintsService.getProductsByQuery(query, undefined, count);
       requestStub.should.have.been.calledOnce.and.calledWith(options);
     });
 
     it('should query db to get document counts of all product groups for given company', async () => {
-      const company = { company: 'Bank of America' };
+      const query = {
+        match_phrase: {
+          company: 'Bank of America',
+        },
+      };
+
       const expectedESReqBody = {
         size: 0,
-        query: {
-          match_phrase: {
-            company: 'Bank of America',
-          },
-        },
+        query,
         aggs: {
           product_bucket: {
             terms: {
@@ -150,20 +149,20 @@ describe('Complaints Service', () => {
 
       sandbox.stub(utils, 'extractAggregationData').returns([]);
       const options = { url: `${mockUrl}_search`, json: true, body: expectedESReqBody };
-      await complaintsService.getProductsByQuery(company);
+      await complaintsService.getProductsByQuery(query);
       requestStub.should.have.been.calledOnce.and.calledWith(options);
     });
 
 
     it('should query db to get document counts of all product groups for given company with optional limit param', async () => {
-      const company = { company: 'Bank of America' };
+      const query = {
+        match_phrase: {
+          company: 'Bank of America',
+        },
+      };
       const expectedESReqBody = {
         size: 0,
-        query: {
-          match_phrase: {
-            company: 'Bank of America',
-          },
-        },
+        query,
         aggs: {
           product_bucket: {
             terms: {
@@ -175,24 +174,24 @@ describe('Complaints Service', () => {
 
       sandbox.stub(utils, 'extractAggregationData').returns([]);
       const options = { url: `${mockUrl}_search`, json: true, body: expectedESReqBody };
-      await complaintsService.getProductsByQuery(company, 3);
+      await complaintsService.getProductsByQuery(query, 3);
       requestStub.should.have.been.calledOnce.and.calledWith(options);
     });
 
     it('should query db to get count of all products groups for given company', async () => {
-      const company = { company: 'Bank of America' };
+      const query = {
+        match_phrase: {
+          company: 'Bank of America',
+        },
+      };
       const count = true;
       const expectedESReqBodyCount = {
-        query: {
-          match_phrase: {
-            company: 'Bank of America',
-          },
-        },
+        query,
       };
 
       sandbox.stub(utils, 'extractAggregationData').returns([]);
       const options = { uri: `${mockUrl}_count`, json: true, body: expectedESReqBodyCount };
-      await complaintsService.getProductsByQuery(company, undefined, count);
+      await complaintsService.getProductsByQuery(query, undefined, count);
       requestStub.should.have.been.calledOnce.and.calledWith(options);
     });
   });
@@ -244,14 +243,15 @@ describe('Complaints Service', () => {
 
   describe('getStatesByQuery', () => {
     it('should query db to get document counts of all state groups for given product_id', async () => {
-      const state = { product_id: 'mortgage' };
+      const query = {
+        match_phrase: {
+          product_id: 'mortgage',
+        },
+      };
+
       const expectedESReqBody = {
         size: 0,
-        query: {
-          match_phrase: {
-            product_id: 'mortgage',
-          },
-        },
+        query,
         aggs: {
           state_bucket: {
             terms: {
@@ -263,19 +263,20 @@ describe('Complaints Service', () => {
       };
       sandbox.stub(utils, 'extractAggregationData').returns([]);
       const options = { url: `${mockUrl}_search`, json: true, body: expectedESReqBody };
-      await complaintsService.getStatesByQuery(state);
+      await complaintsService.getStatesByQuery(query);
       requestStub.should.have.been.calledOnce.and.calledWith(options);
     });
 
     it('should query db to get document counts of all state groups for given product_id with optional limit param', async () => {
-      const state = { product_id: 'mortgage' };
+      const query =  {
+        match_phrase: {
+          product_id: 'mortgage',
+        },
+      };
+
       const expectedESReqBody = {
         size: 0,
-        query: {
-          match_phrase: {
-            product_id: 'mortgage',
-          },
-        },
+        query,
         aggs: {
           state_bucket: {
             terms: {
@@ -287,35 +288,37 @@ describe('Complaints Service', () => {
       };
       sandbox.stub(utils, 'extractAggregationData').returns([]);
       const options = { url: `${mockUrl}_search`, json: true, body: expectedESReqBody };
-      await complaintsService.getStatesByQuery(state, 3);
+      await complaintsService.getStatesByQuery(query, 3);
       requestStub.should.have.been.calledOnce.and.calledWith(options);
     });
 
     it('should query db to get count of all state groups for given product_id', async () => {
-      const state = { product_id: 'mortgage' };
+      const query = {
+        match_phrase: {
+          product_id: 'mortgage',
+        },
+      };
+
       const count = true;
       const expectedESReqBody = {
-        query: {
-          match_phrase: {
-            product_id: 'mortgage',
-          },
-        },
+        query,
       };
       sandbox.stub(utils, 'extractAggregationData').returns([]);
       const options = { uri: `${mockUrl}_count`, json: true, body: expectedESReqBody };
-      await complaintsService.getStatesByQuery(state, undefined, count);
+      await complaintsService.getStatesByQuery(query, undefined, count);
       requestStub.should.have.been.calledOnce.and.calledWith(options);
     });
 
     it('should query db to get document counts of all product groups for given company', async () => {
-      const company = { company: 'Bank of America' };
+      const query = {
+        match_phrase: {
+          company: 'Bank of America',
+        },
+      };
+
       const expectedESReqBody = {
         size: 0,
-        query: {
-          match_phrase: {
-            company: 'Bank of America',
-          },
-        },
+        query,
         aggs: {
           state_bucket: {
             terms: {
@@ -328,19 +331,20 @@ describe('Complaints Service', () => {
 
       sandbox.stub(utils, 'extractAggregationData').returns([]);
       const options = { url: `${mockUrl}_search`, json: true, body: expectedESReqBody };
-      await complaintsService.getStatesByQuery(company);
+      await complaintsService.getStatesByQuery(query);
       requestStub.should.have.been.calledOnce.and.calledWith(options);
     });
 
     it('should query db to get document counts of all product groups for given company with optional limit param', async () => {
-      const company = { company: 'Bank of America' };
+      const query = {
+        match_phrase: {
+          company: 'Bank of America',
+        },
+      };
+
       const expectedESReqBody = {
         size: 0,
-        query: {
-          match_phrase: {
-            company: 'Bank of America',
-          },
-        },
+        query,
         aggs: {
           state_bucket: {
             terms: {
@@ -353,24 +357,25 @@ describe('Complaints Service', () => {
 
       sandbox.stub(utils, 'extractAggregationData').returns([]);
       const options = { url: `${mockUrl}_search`, json: true, body: expectedESReqBody };
-      await complaintsService.getStatesByQuery(company, 3);
+      await complaintsService.getStatesByQuery(query, 3);
       requestStub.should.have.been.calledOnce.and.calledWith(options);
     });
 
     it('should query db to get count of all products groups for given company', async () => {
-      const company = { company: 'Bank of America' };
+      const query = {
+        match_phrase: {
+          company: 'Bank of America',
+        },
+      };
+
       const count = true;
       const expectedESReqBodyCount = {
-        query: {
-          match_phrase: {
-            company: 'Bank of America',
-          },
-        },
+        query,
       };
 
       sandbox.stub(utils, 'extractAggregationData').returns([]);
       const options = { uri: `${mockUrl}_count`, json: true, body: expectedESReqBodyCount };
-      await complaintsService.getStatesByQuery(company, undefined, count);
+      await complaintsService.getStatesByQuery(query, undefined, count);
       requestStub.should.have.been.calledOnce.and.calledWith(options);
     });
   });

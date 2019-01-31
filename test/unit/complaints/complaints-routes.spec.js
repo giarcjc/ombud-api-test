@@ -117,6 +117,29 @@ describe('Complaints endpoints', () => {
       });
   });
 
+  it('should be able to GET api/v1/complaints/products?company=wells%20fargo', (done) => {
+    request = chai
+      .request(app)
+      .get('/api/v1/complaints/products?company=wells%20fargo')
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
+  it('should be able to GET api/v1/complaints/products?company=wells%20fargo&state=NY', (done) => {
+    request = chai
+      .request(app)
+      .get('/api/v1/complaints/products?company=wells%20fargo&state=NY')
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
+
   it('should be able to GET api/v1/complaints/products?limit=5', (done) => {
     request = chai
       .request(app)
@@ -143,6 +166,28 @@ describe('Complaints endpoints', () => {
     request = chai
       .request(app)
       .get('/api/v1/complaints/states')
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
+  it('should be able to GET api/v1/complaints/states?productId=payday_loan', (done) => {
+    request = chai
+      .request(app)
+      .get('/api/v1/complaints/states?productId=payday_loan')
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
+  it('should be able to GET api/v1/complaints/states?productId=payday_loan&company=wells%20fargo', (done) => {
+    request = chai
+      .request(app)
+      .get('/api/v1/complaints/states?productId=payday_loan&company=wells%20fargo')
       .end((err, res) => {
         res.should.have.status(200);
         expect(err).to.equal(null);

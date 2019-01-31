@@ -23,9 +23,7 @@ const complaintsService = {
 
     if (query) {
       const esReqBody = {
-        query: {
-          match_phrase: query,
-        },
+        query,
       };
       Object.assign(options, { body: esReqBody });
     }
@@ -37,7 +35,7 @@ const complaintsService = {
 
   /**
    * Gets document counts of product types filtered by query
-   * @param {object} query - state or company (required)
+   * @param {object} query - state and/or company (1 required)
    * @param {number} limit - limit results (optional)
    * @param {boolean} count - modify request to only get the count of results v
   */
@@ -47,11 +45,10 @@ const complaintsService = {
     }
 
     optionPartial.url = `${url}_search`;
+
     const esReqBody = {
       size: 0,
-      query: {
-        match_phrase: query,
-      },
+      query,
       aggs: {
         product_bucket: {
           terms: {
@@ -109,7 +106,7 @@ const complaintsService = {
 
   /**
    * Gets document counts of all states in which consumers complained, filtered by query
-   * @param {object} query - state or company (required)
+   * @param {object} query - state and/or company (1 required)
    * @param {number} limit - limit results (optional)
    * @param {boolean} count - modify request to only get the count of results (optional)
   */
@@ -118,12 +115,9 @@ const complaintsService = {
       return complaintsService.getCount(query);
     }
 
-    optionPartial.url = `${url}_search`;
     const esReqBody = {
       size: 0,
-      query: {
-        match_phrase: query,
-      },
+      query,
       aggs: {
         state_bucket: {
           terms: {
@@ -134,6 +128,7 @@ const complaintsService = {
       },
     };
 
+    optionPartial.url = `${url}_search`;
     const options = Object.assign(optionPartial, { body: esReqBody });
     logger.debug(options);
 
