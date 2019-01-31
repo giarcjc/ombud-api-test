@@ -5,7 +5,7 @@
 
 ### Complaints
 
-####`GET /complaints`
+#### `GET /complaints`
 
 Returns an array of all complaint data.  Default limit is 10 records unless the `limit` param is set.
 
@@ -74,7 +74,7 @@ Returns an array of all complaint data.  Default limit is 10 records unless the 
   Returns the total number of documents that match the query.
 
 
-####`GET /complaints/:id`
+#### `GET /complaints/:id`
 
 Returns complaint by passed Id.  The 'complaint_id' property of the data correspondes to the passed :id param.
 
@@ -88,7 +88,7 @@ Returns complaint by passed Id.  The 'complaint_id' property of the data corresp
       ]
 
 
-####`GET /complaints/products`
+#### `GET /complaints/products`
 
 Returns an array of product types and corresponding document count of complaints.  Results are sorted from greatest to least to return the product with the most complaints as the first element.
 
@@ -171,7 +171,7 @@ Returns an array of product types and corresponding document count of complaints
           * body:
             768421
 
-####`GET /complaints/states`
+#### `GET /complaints/states`
 
 Returns an array of all states and corresponding document counts of complaints. Results are sorted from greatest to least to return the state with the most complaints as the first element.
 
@@ -263,7 +263,7 @@ Returns an array of all states and corresponding document counts of complaints. 
 
 ### Population
 
-####`GET /population`
+#### `GET /population`
 
 Returns an array of all population data.  Default limit is 10 records unless the `limit` param is set.
 
@@ -316,7 +316,7 @@ Returns an array of all population data.  Default limit is 10 records unless the
           * body:
             81546
 
-####`GET /population/growth`
+#### `GET /population/growth`
 
 Returns an array of all states with the population change, expressed as an integer, representing the aggregate population difference number for that state over the given time period (default time period if no fromYear or toYear query params supplied). Results are sorted from greatest aggregate change to smallest, so the state with the greatest aggregate change is first element.
 
@@ -418,7 +418,7 @@ Returns an array of all states with the population change, expressed as an integ
 
 ### Status
 
-####`GET /status`
+#### `GET /status`
 
   * Example:
     * Request: `api/v1/status`
@@ -427,7 +427,7 @@ Returns an array of all states with the population change, expressed as an integ
       * body:
           {"status":"all good!","version":"0.0.1","name":"cctest","description":"Ombud API Test"}
 
-####`GET /status/db`
+#### `GET /status/db`
 
   * Example:
     * Request: `api/v1/status`
